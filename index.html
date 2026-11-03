@@ -1,0 +1,915 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Girl Genius Foundation</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,700;1,400;1,700&display=swap" rel="stylesheet">
+    
+    <style>
+        /* CSS Variables */
+        :root {
+            --primary-purple: #6c00ff;
+            --accent-yellow: #ffde00;
+            --text-dark: #111111;
+            --text-light: #ffffff;
+            --bg-light: #f8f9fa;
+            --bg-white: #ffffff;
+        }
+
+        /* --- ENHANCEMENT 1: CUSTOM SCROLLBAR & TEXT SELECTION --- */
+        ::-webkit-scrollbar { width: 12px; }
+        ::-webkit-scrollbar-track { background: var(--bg-light); }
+        ::-webkit-scrollbar-thumb { background: var(--primary-purple); border-radius: 6px; border: 2px solid var(--bg-light); }
+        ::-webkit-scrollbar-thumb:hover { background: #5500cc; }
+        ::selection { background: var(--primary-purple); color: var(--accent-yellow); }
+
+        /* Reset & Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-light);
+            color: var(--text-dark);
+            -webkit-font-smoothing: antialiased;
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+        }
+
+        .container {
+            max-width: 1300px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Global Heading Styles - Italicized */
+        h1, h2, h3 {
+            font-family: 'Playfair Display', serif;
+            font-style: italic;
+            font-weight: 700;
+        }
+
+        .section-label {
+            display: block;
+            color: var(--primary-purple);
+            font-size: 0.9rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 15px;
+        }
+
+        .section-title {
+            font-size: 3rem;
+            line-height: 1.2;
+            margin-bottom: 20px;
+        }
+
+        /* --- ENHANCEMENT 2: BUTTONS & HOVER EFFECTS --- */
+        .btn {
+            display: inline-block;
+            background-color: var(--primary-purple);
+            color: white;
+            padding: 14px 28px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1rem;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            border: 2px solid transparent;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(255,255,255,0.1);
+            z-index: -1;
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.4s ease;
+        }
+
+        .btn:hover::before { transform: scaleX(1); }
+        .btn:hover { transform: translateY(-4px) scale(1.02); box-shadow: 0 10px 20px rgba(108, 0, 255, 0.3); }
+
+        .btn-outline {
+            background-color: transparent;
+            border: 2px solid var(--text-light);
+        }
+        
+        .btn-outline:hover {
+            background-color: var(--text-light);
+            color: var(--primary-purple);
+        }
+
+        .btn-text {
+            color: var(--primary-purple);
+            text-decoration: none;
+            font-weight: 700;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            transition: gap 0.3s, color 0.3s;
+        }
+
+        .btn-text:hover { gap: 10px; color: #5500cc; }
+
+        /* --- ENHANCEMENT 3: STICKY GLASSMORPHISM HEADER --- */
+        header {
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 30px 0 20px 0; 
+            background-color: transparent;
+            transition: all 0.4s ease;
+        }
+
+        header.scrolled {
+            background: rgba(248, 249, 250, 0.85);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            padding: 15px 0;
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.05);
+        }
+
+        /* --- ENHANCEMENT 4: UPDATED LOGO SECTION --- */
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-weight: 700;
+            font-size: 0.85rem;
+            line-height: 1.2;
+            text-decoration: none;
+            color: var(--text-dark);
+        }
+
+        /* Replace src with your logo file path, e.g., src="assets/logo.png" */
+        .logo-img {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            object-fit: cover;
+            background-color: var(--primary-purple); /* Fallback */
+            transition: transform 0.3s ease;
+        }
+        .logo:hover .logo-img { transform: scale(1.05); }
+
+        nav {
+            display: flex;
+            gap: 25px;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: var(--text-dark);
+            font-weight: 600;
+            font-size: 0.85rem;
+            letter-spacing: 0.5px;
+            transition: color 0.3s;
+            position: relative;
+        }
+
+        nav a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px; left: 0; width: 0%; height: 2px;
+            background: var(--primary-purple);
+            transition: width 0.3s ease;
+        }
+
+        nav a:hover::after, nav a.active::after { width: 100%; }
+        nav a:hover, nav a.active { color: var(--primary-purple); }
+
+        /* --- HERO CAROUSEL --- */
+        .hero-slider {
+            position: relative;
+            width: 100%;
+            height: 550px;
+            border-radius: 40px;
+            overflow: hidden;
+            margin-top: 10px;
+            background-color: #000;
+        }
+
+        .slide {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            opacity: 0;
+            transition: opacity 0.8s ease-in-out;
+            z-index: 1;
+        }
+
+        .slide.active { opacity: 1; z-index: 2; }
+
+        .slide::after {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(to right, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0.4) 60%, rgba(0,0,0,0) 100%);
+            z-index: 2;
+        }
+
+        .slide-bg {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            object-fit: cover; z-index: 1;
+        }
+
+        .slide-content {
+            position: relative; z-index: 3; height: 100%;
+            display: flex; flex-direction: column; justify-content: center;
+            padding: 0 80px; max-width: 800px;
+        }
+
+        .slide-content h1 {
+            color: var(--text-light);
+            font-size: 3.5rem; 
+            line-height: 1.1; 
+            margin-bottom: 20px;
+        }
+
+        .slide-content p {
+            color: var(--text-light); 
+            font-size: 1rem; 
+            line-height: 1.6;
+            margin-bottom: 35px; 
+            max-width: 500px; 
+            opacity: 0.9;
+        }
+
+        .slide-buttons { display: flex; gap: 15px; }
+
+        .slider-dots {
+            position: absolute; bottom: 30px; left: 80px;
+            display: flex; gap: 12px; z-index: 10;
+        }
+
+        .dot {
+            width: 14px; height: 14px; border-radius: 50%;
+            background-color: rgba(255, 255, 255, 0.4);
+            cursor: pointer; transition: all 0.3s;
+        }
+
+        .dot.active { background-color: var(--accent-yellow); transform: scale(1.2); }
+
+        /* --- IMPACT SECTION --- */
+        .impact {
+            background-color: var(--primary-purple);
+            padding: 80px 0; margin-top: 40px; color: var(--text-light);
+        }
+
+        .impact-grid {
+            display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center;
+        }
+
+        .impact-text h3 {
+            font-size: 1.5rem; font-weight: 400; margin-bottom: 15px;
+        }
+
+        .impact-text h2 {
+            color: var(--accent-yellow); font-size: 3.5rem; line-height: 1.1; margin-bottom: 25px;
+        }
+
+        .impact-text p { font-size: 1.1rem; line-height: 1.6; opacity: 0.9; max-width: 90%; }
+
+        .stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; }
+
+        .stat-item h4 { font-size: 0.85rem; font-weight: 600; letter-spacing: 0.5px; margin-bottom: 5px; }
+
+        .stat-item .number {
+            font-family: 'Inter', sans-serif; color: var(--accent-yellow);
+            font-size: 4rem; font-weight: 700; line-height: 1;
+        }
+
+        /* --- ABOUT SECTION (C) --- */
+        .about-section { padding: 100px 0; background-color: var(--bg-white); }
+        .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; }
+        .about-text p { font-size: 1.1rem; line-height: 1.7; margin-bottom: 20px; color: #555; }
+        .about-text .btn { margin-top: 15px; }
+
+        /* --- PROGRAMS SECTION (D) --- */
+        .programs-section { padding: 100px 0; background-color: var(--bg-light); }
+        .programs-header { text-align: center; max-width: 700px; margin: 0 auto 60px auto; }
+        .programs-header p { font-size: 1.1rem; color: #555; margin-top: 15px; }
+        
+        .programs-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); gap: 30px;
+        }
+
+        .program-card {
+            background: var(--bg-white); padding: 40px; border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            display: flex; flex-direction: column; justify-content: space-between;
+            transition: all 0.4s ease;
+            border: 2px solid transparent;
+        }
+
+        .program-card:hover { 
+            transform: translateY(-8px); 
+            box-shadow: 0 20px 40px rgba(108, 0, 255, 0.1);
+            border-color: rgba(108, 0, 255, 0.1);
+        }
+        .program-card h3 { font-size: 1.8rem; margin-bottom: 15px; }
+        .program-card p { font-size: 1rem; line-height: 1.6; color: #555; margin-bottom: 25px; }
+
+        /* --- MEDIA SECTION (E) --- */
+        .media-section { padding: 100px 0; background-color: var(--primary-purple); color: white; }
+        .media-section .section-label { color: var(--accent-yellow); }
+        .media-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center; }
+        .media-text p { font-size: 1.1rem; line-height: 1.6; margin-bottom: 30px; opacity: 0.9; }
+        
+        .media-cards { display: flex; flex-direction: column; gap: 20px; }
+        .media-card {
+            background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255,255,255,0.2);
+            padding: 30px; border-radius: 20px; backdrop-filter: blur(10px);
+            transition: background 0.3s ease, transform 0.3s ease;
+        }
+        .media-card:hover { background: rgba(255, 255, 255, 0.15); transform: translateX(10px); }
+        .media-card h4 { font-family: 'Inter', sans-serif; font-size: 1.2rem; margin-bottom: 10px; color: var(--accent-yellow); }
+        .media-card p { font-size: 0.95rem; opacity: 0.8; }
+
+        /* --- NEWS SECTION (F) --- */
+        .news-section { padding: 100px 0; background-color: var(--bg-white); }
+        .news-header { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 50px; }
+        .news-header p { font-size: 1.1rem; color: #555; margin-top: 10px; max-width: 600px; }
+        
+        .news-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; }
+        .news-card {
+            background: var(--bg-light); border-radius: 20px; overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            transition: transform 0.3s ease;
+        }
+        .news-card:hover { transform: translateY(-5px); }
+        
+        /* Image Zoom */
+        .news-card-img { width: 100%; height: 200px; background-color: #ddd; overflow: hidden; }
+        .news-card-img img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s ease; }
+        .news-card:hover .news-card-img img { transform: scale(1.08); }
+        
+        .news-card-content { padding: 30px; }
+        .news-card h3 { font-size: 1.5rem; margin-bottom: 10px; }
+        .news-card p { font-size: 0.95rem; color: #555; line-height: 1.6; margin-bottom: 20px; }
+
+        /* --- GET INVOLVED SECTION (G) --- */
+        .get-involved { padding: 100px 0; background-color: var(--accent-yellow); text-align: center; }
+        .get-involved .section-label { color: var(--text-dark); }
+        .get-involved h2 { font-size: 3.5rem; color: var(--text-dark); margin-bottom: 20px; }
+        .get-involved p { font-size: 1.2rem; color: #333; max-width: 700px; margin: 0 auto 40px auto; line-height: 1.6; }
+        .involved-buttons { display: flex; justify-content: center; gap: 20px; }
+        .get-involved .btn { background-color: var(--primary-purple); color: white; }
+        .get-involved .btn:hover { background-color: #5500cc; }
+
+        /* --- ENHANCEMENT 5: SCROLL REVEAL ANIMATIONS --- */
+        .reveal {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: all 0.8s cubic-bezier(0.5, 0, 0, 1);
+        }
+        .reveal.active { opacity: 1; transform: translateY(0); }
+        
+        /* Stagger delays */
+        .delay-1 { transition-delay: 0.1s; }
+        .delay-2 { transition-delay: 0.2s; }
+        .delay-3 { transition-delay: 0.3s; }
+
+        /* --- ENHANCEMENT 6: IMAGE FADE IN --- */
+        .img-fade { opacity: 0; transition: opacity 0.5s ease-in-out; }
+        .img-fade.loaded { opacity: 1; }
+
+        /* --- ENHANCEMENT 7: SCROLL PROGRESS BAR --- */
+        #progress-bar {
+            position: fixed; top: 0; left: 0; height: 4px;
+            background: var(--accent-yellow); width: 0%; z-index: 9999;
+            transition: width 0.1s;
+        }
+
+        /* --- ENHANCEMENT 8: BACK TO TOP BUTTON --- */
+        #back-to-top {
+            position: fixed; bottom: 30px; right: 30px;
+            width: 50px; height: 50px; border-radius: 50%;
+            background: var(--primary-purple); color: white;
+            border: none; cursor: pointer; font-size: 1.5rem;
+            display: flex; justify-content: center; align-items: center;
+            opacity: 0; visibility: hidden; transform: translateY(20px);
+            transition: all 0.3s ease; z-index: 999;
+            box-shadow: 0 5px 15px rgba(108, 0, 255, 0.4);
+        }
+        #back-to-top.show { opacity: 1; visibility: visible; transform: translateY(0); }
+        #back-to-top:hover { background: var(--text-dark); transform: translateY(-3px); }
+
+        /* --- RESPONSIVE DESIGN --- */
+        @media (max-width: 1100px) {
+            nav { gap: 15px; } nav a { font-size: 0.8rem; }
+        }
+
+        @media (max-width: 992px) {
+            .slide-content h1 { font-size: 2.8rem; }
+            .slide-content { padding: 0 40px; }
+            .slider-dots { left: 40px; }
+            .impact-grid, .about-grid, .media-grid { grid-template-columns: 1fr; gap: 40px; }
+            .news-header { flex-direction: column; align-items: flex-start; gap: 20px; }
+            .get-involved h2 { font-size: 2.8rem; }
+        }
+
+        @media (max-width: 768px) {
+            header { flex-direction: column; gap: 20px; padding-top: 20px; }
+            nav { flex-wrap: wrap; justify-content: center; }
+            
+            .hero-slider { height: 600px; border-radius: 20px; }
+            .slide-content { padding: 0 30px; justify-content: flex-end; padding-bottom: 80px; }
+            .slide::after { background: linear-gradient(to top, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.4) 100%); }
+            .slide-content h1 { font-size: 2.2rem; }
+            .slide-content p { font-size: 0.95rem; }
+            .slide-buttons { flex-direction: column; }
+            .slider-dots { left: 30px; bottom: 40px; }
+            
+            .section-title { font-size: 2.2rem; }
+            .impact-text h2 { font-size: 2.5rem; }
+            .stats-grid { gap: 20px; }
+            .stat-item .number { font-size: 3rem; }
+            
+            .programs-grid { grid-template-columns: 1fr; }
+            .program-card { padding: 30px; }
+            
+            .involved-buttons { flex-direction: column; align-items: center; }
+            .involved-buttons .btn { width: 100%; max-width: 300px; }
+        }
+
+        /* --- FOOTER STYLES (SPLIT PANEL) --- */
+        .gg-split-footer { display: flex; min-height: 500px; width: 100%; margin-top: 0; }
+        .gg-footer-left { background-color: var(--primary-purple); color: var(--text-light); width: 45%; padding: 80px 60px; display: flex; flex-direction: column; justify-content: space-between; }
+        .gg-footer-left .gg-logo { display: flex; align-items: center; gap: 12px; font-weight: 700; font-size: 0.85rem; line-height: 1.2; margin-bottom: 40px; text-decoration: none; color: var(--text-light); }
+        .gg-footer-left .gg-logo-img { width: 50px; height: 50px; border-radius: 50%; object-fit: cover; background-color: var(--accent-yellow); }
+        .gg-footer-left .gg-tagline { font-family: 'Playfair Display', serif; font-style: italic; font-size: 2.8rem; line-height: 1.1; margin-bottom: 30px; color: var(--text-light); }
+        .gg-footer-left .gg-tagline span { color: var(--accent-yellow); }
+        .gg-footer-left .gg-bio { font-size: 1.05rem; line-height: 1.6; color: rgba(255, 255, 255, 0.8); margin-bottom: 50px; max-width: 90%; }
+        .gg-social-icons { display: flex; gap: 12px; margin-bottom: 60px; flex-wrap: wrap; }
+        .gg-social-icon { display: flex; align-items: center; justify-content: center; width: 45px; height: 45px; border-radius: 50%; background-color: transparent; color: var(--text-light); text-decoration: none; transition: all 0.3s ease; border: 2px solid rgba(255,255,255,0.3); }
+        .gg-social-icon:hover { background-color: var(--accent-yellow); color: var(--primary-purple); border-color: var(--accent-yellow); transform: translateY(-3px); }
+        .gg-social-icon svg { width: 20px; height: 20px; fill: currentColor; }
+        .gg-copyright-left { font-size: 0.85rem; color: rgba(255, 255, 255, 0.5); }
+        .gg-footer-right { background-color: var(--accent-yellow); color: var(--text-dark); width: 55%; padding: 80px 60px; display: flex; flex-direction: column; justify-content: center; }
+        .gg-footer-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 40px; }
+        .gg-footer-col h4 { font-family: 'Playfair Display', serif; font-style: italic; font-size: 1.5rem; margin-bottom: 25px; color: var(--text-dark); }
+        .gg-footer-col ul { list-style: none; }
+        .gg-footer-col li { margin-bottom: 15px; }
+        .gg-footer-col a { text-decoration: none; color: #333; font-size: 1rem; font-weight: 500; transition: all 0.3s; display: inline-block; }
+        .gg-footer-col a:hover { color: var(--primary-purple); transform: translateX(5px); }
+        .gg-contact-list { display: flex; flex-direction: column; gap: 15px; }
+        .gg-contact-item { display: flex; align-items: flex-start; gap: 10px; font-size: 0.95rem; color: #333; font-weight: 500; }
+        a.gg-contact-item { text-decoration: none; transition: color 0.3s ease; }
+        a.gg-contact-item:hover { color: var(--primary-purple); }
+        .gg-contact-item svg { width: 18px; height: 18px; fill: var(--primary-purple); flex-shrink: 0; margin-top: 2px; }
+        .gg-footer-bottom-links { margin-top: 60px; display: flex; gap: 20px; font-size: 0.85rem; font-weight: 600; }
+        .gg-footer-bottom-links a { color: #333; text-decoration: none; transition: color 0.3s; }
+        .gg-footer-bottom-links a:hover { color: var(--primary-purple); }
+        
+        @media (max-width: 992px) {
+            .gg-split-footer { flex-direction: column; }
+            .gg-footer-left, .gg-footer-right { width: 100%; padding: 60px 40px; }
+            .gg-footer-left .gg-tagline { font-size: 2.2rem; }
+            .gg-footer-grid { grid-template-columns: 1fr 1fr; gap: 30px; }
+        }
+        @media (max-width: 768px) {
+            .gg-footer-grid { grid-template-columns: 1fr; }
+            .gg-footer-bottom-links { flex-direction: column; gap: 10px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- SCROLL PROGRESS BAR -->
+    <div id="progress-bar"></div>
+
+    <!-- HEADER & NAVIGATION -->
+    <header class="container" id="site-header">
+        <a href="gghome.html" class="logo">
+            <!-- REPLACE SRC WITH YOUR LOGO FILE -->
+            <img src="https://via.placeholder.com/50/6c00ff/ffffff?text=gg" alt="GG Logo" class="logo-img">
+            <div>GIRL GENIUS<br>FOUNDATION</div>
+        </a>
+        <nav>
+            <a href="gghome.html" class="active">Home</a>
+            <a href="ggabout.html">About Us</a>
+            <a href="ourprograms.html">Our Programs</a>
+            <a href="newsandupdates.html">News & Updates</a>
+            <a href="mediahub.html">Media Hub</a>
+            <a href="getinvolved.html">Get Involved</a>
+        </nav>
+        <a href="getinvolved.html#contact-form" class="btn">Partner With Us</a>
+    </header>
+
+    <!-- HERO CAROUSEL SECTION -->
+    <section class="container reveal">
+        <div class="hero-slider">
+            <!-- SLIDE 01 -->
+            <div class="slide active">
+                <img class="slide-bg img-fade" loading="lazy" src="https://images.unsplash.com/photo-1573497620053-ea5300f94f21?auto=format&fit=crop&q=80&w=1200" alt="Girls smiling">
+                <div class="slide-content">
+                    <h1>Empowering Girls.<br>Creating Possibilities.</h1>
+                    <p>Every girl deserves the opportunity, support and resources to shape her own future. We're working towards a world where that opportunity is within reach.</p>
+                    <div class="slide-buttons">
+                        <a href="ourprograms.html" class="btn">Explore Our Work</a>
+                        <a href="getinvolved.html" class="btn btn-outline">Get Involved</a>
+                    </div>
+                </div>
+            </div>
+            <!-- SLIDE 02 -->
+            <div class="slide">
+                <img class="slide-bg img-fade" loading="lazy" src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&q=80&w=1200" alt="Education">
+                <div class="slide-content">
+                    <h1>Education Opens Doors.<br>Opportunity Moves Us Forward.</h1>
+                    <p>We support initiatives that help girls access education, develop skills and discover new possibilities.</p>
+                    <div class="slide-buttons">
+                        <a href="ourprograms.html" class="btn">Discover Our Programs</a>
+                    </div>
+                </div>
+            </div>
+            <!-- SLIDE 03 -->
+            <div class="slide">
+                <img class="slide-bg img-fade" loading="lazy" src="https://images.unsplash.com/photo-1509062522246-3755977927d7?auto=format&fit=crop&q=80&w=1200" alt="Empowerment">
+                <div class="slide-content">
+                    <h1>When Girls Grow,<br>Communities Move Forward.</h1>
+                    <p>Through mentorship, advocacy and opportunities for growth, we help create an environment where girls can thrive.</p>
+                    <div class="slide-buttons">
+                        <a href="getinvolved.html#contact-form" class="btn">Partner With Us</a>
+                    </div>
+                </div>
+            </div>
+            <!-- Dots -->
+            <div class="slider-dots">
+                <div class="dot active" onclick="currentSlide(0)"></div>
+                <div class="dot" onclick="currentSlide(1)"></div>
+                <div class="dot" onclick="currentSlide(2)"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- IMPACT SECTION (Animated Counters) -->
+    <section class="impact reveal">
+        <div class="container impact-grid">
+            <div class="impact-text">
+                <h3>Empowerment, Education, and Growth</h3>
+                <h2>We inspire, guide,<br>and never stop<br>believing</h2>
+                <p>Girl Genius Foundation is dedicated to uplifting young girls through education, mentorship, and innovative programs, creating tomorrow's leaders.</p>
+            </div>
+            <div class="stats-grid">
+                <div class="stat-item">
+                    <h4>Partner Schools</h4>
+                    <div class="number" data-target="2" data-suffix="+">0+</div>
+                </div>
+                <div class="stat-item">
+                    <h4>Girls Supported Monthly</h4>
+                    <div class="number" data-target="200" data-suffix="+">0+</div>
+                </div>
+                <div class="stat-item">
+                    <h4>Mentorship Sessions</h4>
+                    <div class="number" data-target="30" data-suffix="+">0+</div>
+                </div>
+                <div class="stat-item">
+                    <h4>Girls Reached</h4>
+                    <div class="number" data-target="1.2" data-suffix="k">0k</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- C. ABOUT INTRODUCTION -->
+    <section class="about-section reveal">
+        <div class="container about-grid">
+            <div>
+                <span class="section-label">WHO WE ARE</span>
+                <h2 class="section-title">We are driven by the belief that every girl deserves a chance to thrive.</h2>
+            </div>
+            <div class="about-text">
+                <p>Girl Genius Foundation is committed to advancing girls' education and women's empowerment. We work to create opportunities through mentorship, educational support, skills development and advocacy.</p>
+                <p>We believe that empowering girls goes beyond providing access to education. It means helping them develop the confidence, knowledge and resources to make informed decisions, pursue their ambitions and contribute meaningfully to society.</p>
+                <a href="ggabout.html" class="btn-text">Discover Our Story →</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- D. OUR PROGRAMS PREVIEW -->
+    <section class="programs-section">
+        <div class="container">
+            <div class="programs-header reveal">
+                <span class="section-label">WHAT WE DO</span>
+                <h2 class="section-title">Creating opportunities.<br>Inspiring change.</h2>
+                <p>Our work takes different forms, but our purpose remains the same: to create meaningful opportunities for girls and young women.</p>
+            </div>
+            
+            <div class="programs-grid">
+                <!-- Program 1 -->
+                <div class="program-card reveal delay-1">
+                    <div>
+                        <h3>Girls' Education Fundraiser</h3>
+                        <p>Supporting efforts to make educational opportunities more accessible to girls who need them.</p>
+                    </div>
+                    <a href="ourprograms.html" class="btn-text">Explore Initiative →</a>
+                </div>
+                <!-- Program 2 -->
+                <div class="program-card reveal delay-2">
+                    <div>
+                        <h3>Become a Mentor for Girls</h3>
+                        <p>Connecting girls with guidance, encouragement and experiences that can help shape their personal and professional journeys.</p>
+                    </div>
+                    <a href="ourprograms.html" class="btn-text">Become a Mentor →</a>
+                </div>
+                <!-- Program 3 -->
+                <div class="program-card reveal delay-3">
+                    <div>
+                        <h3>Breast Cancer Awareness</h3>
+                        <p>Promoting awareness and encouraging informed conversations about women's health.</p>
+                    </div>
+                    <a href="ourprograms.html" class="btn-text">Learn More →</a>
+                </div>
+                <!-- Program 4 -->
+                <div class="program-card reveal delay-1">
+                    <div>
+                        <h3>GG SHOW</h3>
+                        <p>A foundation-led video podcast creating space for conversations, perspectives and ideas that inspire and inform.</p>
+                    </div>
+                    <a href="mediahub.html" class="btn-text">Explore GG SHOW →</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- E. MEDIA PREVIEW -->
+    <section class="media-section reveal">
+        <div class="container media-grid">
+            <div class="media-text">
+                <span class="section-label">WATCH. LISTEN. LEARN.</span>
+                <h2 class="section-title" style="color: white;">Conversations and knowledge worth sharing.</h2>
+                <p>Explore conversations, expert insights and learning experiences through our webinars and GG SHOW.</p>
+                <a href="mediahub.html" class="btn btn-outline">Explore the Media Hub</a>
+            </div>
+            <div class="media-cards">
+                <div class="media-card reveal delay-1">
+                    <h4>Latest GG SHOW episode</h4>
+                    <p>Watch the newest episode featuring inspiring conversations.</p>
+                </div>
+                <div class="media-card reveal delay-2">
+                    <h4>Recent webinar recording</h4>
+                    <p>Catch up on our latest educational webinar.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- F. NEWS PREVIEW -->
+    <section class="news-section">
+        <div class="container">
+            <div class="news-header reveal">
+                <div>
+                    <span class="section-label">FROM THE FOUNDATION</span>
+                    <h2 class="section-title">Stories, updates and moments that matter.</h2>
+                    <p>Stay connected with the activities, initiatives and developments shaping our work.</p>
+                </div>
+                <a href="newsandupdates.html" class="btn-text">View All Updates →</a>
+            </div>
+            
+            <div class="news-grid">
+                <!-- News Card 1 -->
+                <div class="news-card reveal delay-1">
+                    <div class="news-card-img">
+                        <img loading="lazy" src="https://images.unsplash.com/photo-1427504494785-3a9ca7044f45?auto=format&fit=crop&q=80&w=600" alt="Education">
+                    </div>
+                    <div class="news-card-content">
+                        <h3>Empowering 200 Girls</h3>
+                        <p>Highlights from our recent educational drive...</p>
+                    </div>
+                </div>
+                <!-- News Card 2 -->
+                <div class="news-card reveal delay-2">
+                    <div class="news-card-img">
+                        <img loading="lazy" src="https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?auto=format&fit=crop&q=80&w=600" alt="Mentorship">
+                    </div>
+                    <div class="news-card-content">
+                        <h3>Mentorship Program Launch</h3>
+                        <p>Connecting young minds with industry leaders...</p>
+                    </div>
+                </div>
+                <!-- News Card 3 -->
+                <div class="news-card reveal delay-3">
+                    <div class="news-card-img">
+                        <img loading="lazy" src="https://images.unsplash.com/photo-1579684385127-1ef15d508118?auto=format&fit=crop&q=80&w=600" alt="Health">
+                    </div>
+                    <div class="news-card-content">
+                        <h3>Health Awareness Campaign</h3>
+                        <p>Our recent outreach focused on women's health...</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- G. GET INVOLVED PREVIEW -->
+    <section class="get-involved reveal">
+        <div class="container">
+            <span class="section-label">BE PART OF THE CHANGE</span>
+            <h2>There is more than one way<br>to make a difference.</h2>
+            <p>Whether you have expertise to share, resources to contribute or a passion for empowering girls, there's a place for you in our journey.</p>
+            <div class="involved-buttons">
+                <a href="getinvolved.html#contact-form" class="btn">Partner With Us</a>
+                <a href="getinvolved.html#contact-form" class="btn">Volunteer With Us</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- --- FOOTER START --- -->
+    <footer class="gg-split-footer">
+        <div class="gg-footer-left">
+            <div>
+                <a href="gghome.html" class="gg-logo">
+                    <!-- REPLACE SRC WITH YOUR LOGO FILE -->
+                    <img src="https://via.placeholder.com/50/ffde00/6c00ff?text=gg" alt="GG Logo" class="gg-logo-img">
+                    <div>GIRL GENIUS<br>FOUNDATION</div>
+                </a>
+                <div class="gg-tagline">Empowering girls.<br><span>Creating possibilities.</span></div>
+                <p class="gg-bio">We are committed to advancing girls' education and women's empowerment through opportunities, mentorship, skills development and advocacy.</p>
+                
+                <div class="gg-social-icons">
+                    <a href="#" class="gg-social-icon" aria-label="Facebook"><svg viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.469h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.469h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg></a>
+                    <a href="#" class="gg-social-icon" aria-label="Instagram"><svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg></a>
+                    <a href="#" class="gg-social-icon" aria-label="Twitter"><svg viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg></a>
+                    <a href="#" class="gg-social-icon" aria-label="LinkedIn"><svg viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg></a>
+                    <a href="#" class="gg-social-icon" aria-label="YouTube"><svg viewBox="0 0 24 24"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg></a>
+                    <a href="#" class="gg-social-icon" aria-label="TikTok"><svg viewBox="0 0 24 24"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5 20.1a6.34 6.34 0 0 0 10.86-4.43v-7a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1-.1z"/></svg></a>
+                    <a href="#" class="gg-social-icon" aria-label="WhatsApp"><svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg></a>
+                </div>
+            </div>
+            <div class="gg-copyright-left">&copy; 2026 Girl Genius Foundation. All rights reserved.</div>
+        </div>
+
+        <div class="gg-footer-right">
+            <div class="gg-footer-grid">
+                <div class="gg-footer-col">
+                    <h4>Explore</h4>
+                    <ul>
+                        <li><a href="gghome.html">Home</a></li>
+                        <li><a href="ggabout.html">About Us</a></li>
+                        <li><a href="ourprograms.html">Our Programs</a></li>
+                        <li><a href="newsandupdates.html">News & Updates</a></li>
+                        <li><a href="mediahub.html">Media Hub</a></li>
+                    </ul>
+                </div>
+                <div class="gg-footer-col">
+                    <h4>Get Involved</h4>
+                    <ul>
+                        <li><a href="getinvolved.html#contact-form">Partner With Us</a></li>
+                        <li><a href="getinvolved.html#contact-form">Become a Mentor</a></li>
+                        <li><a href="getinvolved.html#contact-form">Volunteer</a></li>
+                        <li><a href="getinvolved.html#contact-form">Support Our Work</a></li>
+                    </ul>
+                </div>
+                <div class="gg-footer-col">
+                    <h4>Contact</h4>
+                    <div class="gg-contact-list">
+                        <a href="mailto:hello@girlgeniusfoundation.org" class="gg-contact-item"><svg viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg><span>hello@girlgeniusfoundation.org</span></a>
+                        <a href="tel:+2330123456789" class="gg-contact-item"><svg viewBox="0 0 24 24"><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/></svg><span>+233 (0) 123 456 789</span></a>
+                        <div class="gg-contact-item"><svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg><span>Accra, Ghana</span></div>
+                    </div>
+                </div>
+            </div>
+            <div class="gg-footer-bottom-links">
+                <a href="#">Privacy Policy</a>
+                <a href="#">Terms of Service</a>
+            </div>
+        </div>
+    </footer>
+    <!-- --- FOOTER END --- -->
+
+    <!-- BACK TO TOP BUTTON -->
+    <button id="back-to-top" aria-label="Back to top">↑</button>
+
+    <!-- JAVASCRIPT ENHANCEMENTS -->
+    <script>
+        // --- HERO CAROUSEL ---
+        let slideIndex = 0;
+        let slides = document.querySelectorAll('.slide');
+        let dots = document.querySelectorAll('.dot');
+        let slideInterval;
+
+        function showSlides(n) {
+            if (n >= slides.length) { slideIndex = 0; }
+            if (n < 0) { slideIndex = slides.length - 1; }
+            slides.forEach(slide => slide.classList.remove('active'));
+            dots.forEach(dot => dot.classList.remove('active'));
+            slides[slideIndex].classList.add('active');
+            dots[slideIndex].classList.add('active');
+        }
+        function currentSlide(n) { slideIndex = n; showSlides(slideIndex); resetTimer(); }
+        function nextSlide() { slideIndex++; showSlides(slideIndex); }
+        function startTimer() { slideInterval = setInterval(nextSlide, 6000); }
+        function resetTimer() { clearInterval(slideInterval); startTimer(); }
+        startTimer();
+
+        // --- STICKY HEADER, PROGRESS BAR, & BACK TO TOP ---
+        const header = document.getElementById('site-header');
+        const progressBar = document.getElementById('progress-bar');
+        const backToTop = document.getElementById('back-to-top');
+
+        window.addEventListener('scroll', () => {
+            const scrollTop = window.scrollY;
+            const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+            const scrollPercent = (scrollTop / docHeight) * 100;
+
+            // Progress Bar
+            progressBar.style.width = scrollPercent + '%';
+
+            // Sticky Header
+            if (scrollTop > 50) { header.classList.add('scrolled'); } 
+            else { header.classList.remove('scrolled'); }
+
+            // Back to Top
+            if (scrollTop > 300) { backToTop.classList.add('show'); } 
+            else { backToTop.classList.remove('show'); }
+        });
+
+        backToTop.addEventListener('click', () => {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+
+        // --- SCROLL REVEAL ANIMATIONS ---
+        const revealElements = document.querySelectorAll('.reveal');
+        const revealObserver = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                    observer.unobserve(entry.target); // Run animation only once
+                }
+            });
+        }, { threshold: 0.15 });
+
+        revealElements.forEach(el => revealObserver.observe(el));
+
+        // --- ANIMATED NUMBER COUNTERS ---
+        const counters = document.querySelectorAll('.number');
+        let hasCounted = false; // Ensure they only count once
+
+        const counterObserver = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting && !hasCounted) {
+                    hasCounted = true;
+                    counters.forEach(counter => {
+                        const target = parseFloat(counter.getAttribute('data-target'));
+                        const suffix = counter.getAttribute('data-suffix');
+                        const duration = 2000; // 2 seconds
+                        const stepTime = Math.abs(Math.floor(duration / 100));
+                        let current = 0;
+                        const increment = target / (duration / 16); // 60 FPS
+
+                        const updateCounter = () => {
+                            current += increment;
+                            if (current < target) {
+                                // Handle decimals for 1.2k
+                                if (target % 1 !== 0) {
+                                    counter.innerText = current.toFixed(1) + suffix;
+                                } else {
+                                    counter.innerText = Math.ceil(current) + suffix;
+                                }
+                                requestAnimationFrame(updateCounter);
+                            } else {
+                                counter.innerText = target + suffix;
+                            }
+                        };
+                        updateCounter();
+                    });
+                    observer.disconnect(); // Stop observing once triggered
+                }
+            });
+        }, { threshold: 0.5 }); // Trigger when section is halfway visible
+
+        if(counters.length > 0) {
+            counterObserver.observe(counters[0].closest('.stats-grid'));
+        }
+
+        // --- IMAGE FADE IN ---
+        const images = document.querySelectorAll('.img-fade');
+        images.forEach(img => {
+            if (img.complete) {
+                img.classList.add('loaded');
+            } else {
+                img.addEventListener('load', () => img.classList.add('loaded'));
+            }
+        });
+    </script>
+</body>
+</html>

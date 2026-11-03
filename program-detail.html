@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Girls' Education Fundraiser | Girl Genius Foundation</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,700;1,400;1,700&display=swap" rel="stylesheet">
+    <style>
+        /* Simplified Base CSS for this page */
+        :root { --primary-purple: #6c00ff; --accent-yellow: #ffde00; --text-dark: #111111; --bg-light: #f8f9fa; --bg-white: #ffffff; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', sans-serif; background-color: var(--bg-light); color: var(--text-dark); }
+        h1, h2, h3 { font-family: 'Playfair Display', serif; font-style: italic; font-weight: 700; }
+        .container { max-width: 1300px; margin: 0 auto; padding: 0 20px; }
+        
+        /* Header & Footer placeholders - Replace with your exact header/footer code */
+        header { padding: 40px 20px; display: flex; justify-content: space-between; align-items: center; max-width: 1300px; margin: 0 auto; }
+        .logo { font-weight: 700; text-decoration: none; color: var(--text-dark); display: flex; align-items: center; gap: 10px; }
+        .logo-img { width: 40px; height: 40px; border-radius: 50%; background: var(--primary-purple); }
+        .btn { background: var(--primary-purple); color: white; padding: 14px 28px; border-radius: 30px; text-decoration: none; font-weight: 600; }
+        
+        /* Page Specific Styles */
+        .program-hero { position: relative; height: 60vh; min-height: 500px; display: flex; align-items: flex-end; padding: 60px; margin-top: 20px; border-radius: 40px; overflow: hidden; }
+        .program-hero img { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; z-index: 1; }
+        .program-hero::after { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(to top, rgba(0,0,0,0.9), transparent); z-index: 2; }
+        .hero-content { position: relative; z-index: 3; color: white; max-width: 800px; }
+        .hero-content h1 { font-size: 4rem; line-height: 1.1; margin-bottom: 20px; }
+        .hero-content p { font-size: 1.2rem; opacity: 0.9; }
+        
+        .content-section { padding: 80px 0; }
+        .content-grid { display: grid; grid-template-columns: 2fr 1fr; gap: 60px; }
+        .main-text h2 { font-size: 2.5rem; color: var(--primary-purple); margin: 40px 0 20px 0; }
+        .main-text h2:first-child { margin-top: 0; }
+        .main-text p, .main-text ul { font-size: 1.1rem; line-height: 1.7; color: #444; margin-bottom: 20px; }
+        .main-text ul { padding-left: 20px; }
+        
+        .sidebar { background: var(--bg-white); padding: 40px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); align-self: start; position: sticky; top: 40px; }
+        .sidebar h3 { font-size: 1.8rem; margin-bottom: 20px; }
+        .sidebar p { font-size: 1rem; color: #555; margin-bottom: 25px; line-height: 1.5; }
+        .sidebar .btn { width: 100%; text-align: center; margin-bottom: 15px; display: block; }
+        
+        @media (max-width: 992px) {
+            .content-grid { grid-template-columns: 1fr; }
+            .program-hero { height: 50vh; padding: 30px; }
+            .hero-content h1 { font-size: 2.5rem; }
+            .sidebar { position: static; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- SIMPLE HEADER (Replace with your sticky header) -->
+    <header>
+        <a href="gghome.html" class="logo"><img src="https://via.placeholder.com/40" class="logo-img" alt="Logo"> GIRL GENIUS</a>
+        <a href="ourprograms.html" class="btn" style="background: transparent; border: 2px solid var(--text-dark); color: var(--text-dark);">← Back to Programs</a>
+    </header>
+
+    <!-- PROGRAM HERO -->
+    <section class="container">
+        <div class="program-hero">
+            <img src="https://images.unsplash.com/photo-1427504494785-3a9ca7044f45?auto=format&fit=crop&q=80&w=1200" alt="Education">
+            <div class="hero-content">
+                <span style="background: var(--accent-yellow); color: var(--text-dark); padding: 6px 12px; border-radius: 20px; font-weight: 700; font-size: 0.8rem; text-transform: uppercase; display: inline-block; margin-bottom: 15px;">Education</span>
+                <h1>Girls' Education Fundraiser</h1>
+                <p>Opening doors through education.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- MAIN CONTENT -->
+    <section class="content-section container">
+        <div class="content-grid">
+            
+            <div class="main-text">
+                <h2>About the Program</h2>
+                <p>An initiative focused on supporting girls' access to educational opportunities and the resources they need to pursue their ambitions.</p>
+                
+                <h2>Why It Matters</h2>
+                <p>Access to education remains uneven for many girls. Without the right resources, they are often forced to abandon their dreams. This program exists to bridge that gap.</p>
+                
+                <h2>Objectives</h2>
+                <ul>
+                    <li>Provide school supplies and tuition support.</li>
+                    <li>Create safe learning environments.</li>
+                    <li>Empower girls to complete their education and pursue higher learning.</li>
+                </ul>
+
+                <h2>Who It Serves</h2>
+                <p>Young girls in under-resourced communities who show academic potential but lack the financial means to continue their education.</p>
+
+                <h2>Our Impact</h2>
+                <p>To date, we have supported over 200 girls through various initiatives, ensuring they have the tools to build a brighter future.</p>
+            </div>
+
+            <!-- SIDEBAR -->
+            <div class="sidebar">
+                <h3>How to Support</h3>
+                <p>Your contribution directly changes lives. Join us in empowering the next generation of leaders.</p>
+                <a href="getinvolved.html#contact-form" class="btn">Donate to the Fund</a>
+                <a href="getinvolved.html#contact-form" class="btn" style="background-color: var(--accent-yellow); color: var(--text-dark);">Volunteer</a>
+            </div>
+
+        </div>
+    </section>
+
+</body>
+</html>
